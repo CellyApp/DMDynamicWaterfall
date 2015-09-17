@@ -265,13 +265,13 @@
 	// First of all we want to remove dynamic behaviour for each no longer visible items along with the index paths from the visibleIndexPathsSet property
 	// This allows us to red
     NSArray *noLongerVisibleBehaviours = [dynamicAnimator.behaviors filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(UIAttachmentBehavior *behaviour, NSDictionary *bindings) {
-        BOOL currentlyVisible = [itemsIndexPathsInVisibleRectSet member:[[[behaviour items] firstObject] indexPath]] != nil;
+        BOOL currentlyVisible = [itemsIndexPathsInVisibleRectSet member:[(UICollectionViewLayoutAttributes *)[[behaviour items] firstObject] indexPath]] != nil;
         return !currentlyVisible;
     }]];
 	
 	[noLongerVisibleBehaviours enumerateObjectsUsingBlock:^(id obj, NSUInteger index, BOOL *stop) {
         [dynamicAnimator removeBehavior:obj];
-        [visibleIndexPathsSet removeObject:[[[obj items] firstObject] indexPath]];
+        [visibleIndexPathsSet removeObject:[(UICollectionViewLayoutAttributes *)[[obj items] firstObject] indexPath]];
     }];
 	
 	// The next step is to calculate a list of UICollectionViewLayoutAttributes that are newly visible
